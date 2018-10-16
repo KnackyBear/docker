@@ -1,0 +1,47 @@
+
+version: '3.2'
+services:
+  plex:
+    image: "linuxserver/plex:latest"
+    container_name: "plex"
+    network_mode: "host"
+    environment:
+      - "VERSION=latest"
+      - "PUID=109"
+      - "PGID=119"
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: animes
+        target: /media/nas/animes
+        volume:
+          nocopy: true
+      - type: volume
+        source: films
+        target: /media/nas/films
+        volume:
+          nocopy: true
+      - type: volume
+        source: series
+        target: /media/nas/series
+        volume:
+          nocopy: true
+      - type: bind
+        source: ${CONFIG_PATH}
+        target: /config
+volumes:
+  animes:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NFS_IP},ro,nolock,soft"
+      device: ":${NFS_PATH_ANIMES}"
+  films:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NFS_IP},ro,nolock,soft"
+      device: ":${NFS_PATH_FILMS}"
+  series:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NFS_IP},ro,nolock,soft"
+      device: ":${NFS_PATH_SERIES}"

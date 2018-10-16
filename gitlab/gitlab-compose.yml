@@ -1,0 +1,27 @@
+version: '3.2'
+
+services:
+  gitlab:
+    image: "gitlab/gitlab-ce:latest"
+    hostname: "${GITLAB_HOSTNAME}"
+    container_name: "gitlab"
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: sources
+        target: /var/opt/gitlab
+        volume:
+          nocopy: true
+      - type: bind
+        source: ${GITLAB_CONFIG_PATH}
+        target: /etc/gitlab
+    ports:
+      - "2222:22"
+      - "4433:443"
+      - "8080:80"
+volumes:
+  sources:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NFS_IP},rw,nolock,soft"
+      device: ":${NFS_PATH_SOURCE}"
