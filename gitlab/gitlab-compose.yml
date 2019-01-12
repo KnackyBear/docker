@@ -5,6 +5,8 @@ services:
     image: "gitlab/gitlab-ce:latest"
     hostname: "${GITLAB_HOSTNAME}"
     container_name: "gitlab"
+    env_file:
+      - config.env
     restart: unless-stopped
     volumes:
       - type: volume
