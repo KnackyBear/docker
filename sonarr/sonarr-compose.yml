@@ -1,0 +1,60 @@
+version: '3.2'
+services:
+  sonarr:
+    image: "linuxserver/sonarr:164"
+    container_name: "sonarr"
+    ports:
+      - "8989:8989"
+    environment:
+      - "PUID=1024"
+      - "PGID=100"
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: animes
+        target: /animes
+        volume:
+          nocopy: true
+      - type: volume
+        source: films
+        target: /films
+        volume:
+          nocopy: true
+      - type: volume
+        source: series
+        target: /series
+        volume:
+          nocopy: true
+      - type: volume
+        source: downloads
+        target: /downloads
+        volume:
+          nocopy: true
+      - type: bind
+        source: ${SONARR_CONFIG_PATH}
+        target: /config
+      - type: bin
+        source: /etc/localtime
+        target: /etc/localtime
+        read_only: true
+volumes:
+  downloads:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NFS_IP},nolock,soft"
+      device: ":${NFS_PATH_DOWNLOADS}"
+  animes:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NFS_IP},nolock,soft"
+      device: ":${NFS_PATH_ANIMES}"
+  films:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NFS_IP},nolock,soft"
+      device: ":${NFS_PATH_FILMS}"
+  series:
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NFS_IP},nolock,soft"
+      device: ":${NFS_PATH_SERIES}"
