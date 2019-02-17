@@ -1,0 +1,14 @@
+#!/usr/bin/with-contenv bash
+
+# create folder
+mkdir -p \
+    /config/lycheesync
+
+# copy config
+[[ ! -e /config/lycheesync/conf.json ]] && \
+	cp /defaults/conf.json /config/lycheesync/conf.json
+tmpfile=$(mktemp) && \
+    jq '.db = env.LYCHEE_DBNAME | .dbUser = env.LYCHEE_DBUSER | .dbPassword = env.LYCHEE_DBPWD | .dbHost = env.LYCHEE_DBHOST' /config/lycheesync/conf.json > "$tmpfile" && \
+    mv "$tmpfile" /config/lycheesync/conf.json
+
+chown -R abc:abc /config/lycheesync

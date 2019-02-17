@@ -1,0 +1,11 @@
+{
+    "db":"",
+    "dbUser":"",
+    "dbPassword":"",
+    "dbHost":"",
+    "thumbQuality":80,
+    "publicAlbum": 0,
+    "excludeAlbums": [
+        "*/temp"
+    ]
+}
