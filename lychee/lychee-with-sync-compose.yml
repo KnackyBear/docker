@@ -1,0 +1,52 @@
+
+version: '3.2'
+services:
+  mariadb:
+    image: "linuxserver/mariadb:latest"
+    container_name: "mariadb"
+    environment:
+      - "PUID=1000"
+      - "PGID=998"
+      - "TZ=Europe/Paris"
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+    restart: unless-stopped
+    networks:
+      - backend
+    ports:
+      - 3306:3306
+    volumes:
+      - type: bind
+        source: ${MARIADB_CONFIG_PATH}
+        target: /config
+  lychee:
+    image: "linuxserver/lycheesync:latest"
+    container_name: "lycheesync"
+    environment:
+      - "PUID=1000"
+      - "PGID=998"
+      - "LYCHEE_DBNAME=${LYCHEE_DBNAME}"
+      - "LYCHEE_DBUSER=${LYCHEE_DBUSER}"
+      - "LYCHEE_DBPWD=${LYCHEE_DBPWD}"
+      - "LYCHEE_DBHOST=${LYCHEE_DBHOST}"
+    restart: unless-stopped
+    networks:
+      - backend
+    links:
+      - mariadb
+    ports:
+      - 8888:80
+    depends_on:
+      - mariadb
+    volumes:
+      - type: bind
+        source: ${LYCHEE_CONFIG_PATH}
+        target: /config
+      - type: bind
+        source: ${LYCHEE_PICTURES_PATH}
+        target: /pictures
+      - type: bind
+        source: ${LYCHEE_SOURCES_PATH}
+        target: /sources
+networks:
+  backend:
+    driver: bridge
