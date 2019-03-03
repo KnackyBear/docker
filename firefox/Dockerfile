@@ -30,8 +30,8 @@ RUN apt-get update && apt-get install -y \
 
 # Create user for wayland
 ENV HOME /home/user
-RUN groupadd -g 998 wheel && \
-	useradd -u 1000 -g 998 -G audio --create-home --home-dir $HOME user && \
+RUN groupadd -g ${GID} wheel && \
+	useradd -u ${UID} -g ${GID} -G audio --create-home --home-dir $HOME user && \
  	chown -R user:wheel $HOME
 
 ENV LANG C.UTF-8
