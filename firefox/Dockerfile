@@ -1,10 +1,6 @@
 FROM debian:sid-slim
 LABEL maintainer "Julien Vinet <contact@julienvinet.dev>"
 
-# Replace with your own
-ARG UID=1000
-ARG GID=998
-
 # Init environment
 RUN apt-get update && apt-get install -y \
 	dirmngr \
@@ -28,19 +24,10 @@ RUN apt-get update && apt-get install -y \
 	--no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
-# Create user for wayland
-ENV HOME /home/user
-RUN groupadd -g ${GID} wheel && \
-	useradd -u ${UID} -g ${GID} -G audio --create-home --home-dir $HOME user && \
- 	chown -R user:wheel $HOME
-
 ENV LANG C.UTF-8
 
 COPY local.conf /etc/fonts/local.conf
 
 RUN echo 'pref("browser.tabs.remote.autostart", false);' >> /etc/firefox/syspref.js
-
-WORKDIR $HOME
-USER user
 
 ENTRYPOINT [ "firefox" ]
