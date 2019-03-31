@@ -2,7 +2,41 @@
 Personnal stuff about docker images
 
 ### firefox
-GUI app in a container using Wayland and PulseAudio.
+Firefox GUI app in a container using Wayland and PulseAudio.
+
+    docker run -d \
+		--memory 2gb \
+		--net host \
+		--cpuset-cpus 0 \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /etc/passwd:/etc/passwd:ro \
+		-v "${HOME}:${HOME}" \
+		-e "DISPLAY=unix${DISPLAY}" \
+		-e "PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native" \
+    	-v "${XDG_RUNTIME_DIR}/pulse/native:${XDG_RUNTIME_DIR}/pulse/native" \
+		--device /dev/snd \
+		--device /dev/dri \
+		-u $(id -u):$(id -g) \
+		--name firefox \
+		jnvinet/firefox "$@"
+
+### vscode
+Visual Studio Code in a container using Wayland.
+
+    docker run -d \
+		--net host \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /etc/passwd:/etc/passwd:ro \
+		-v "${HOME}:${HOME}" \
+		-e "DISPLAY=unix${DISPLAY}" \
+		-e "PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native" \
+    	-v "${XDG_RUNTIME_DIR}/pulse/native:${XDG_RUNTIME_DIR}/pulse/native" \
+		--device /dev/dri \
+		-u $(id -u):$(id -g) \
+		-w $(pwd) \
+		--name vscode \
+		jnvinet/vscode "$@"
+
 
 ### gitlab
 A gitlab compose file with NFS related directories.
