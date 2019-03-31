@@ -17,10 +17,11 @@ RUN apt-get update && apt-get install -y \
 	libgl1-mesa-dri \
 	libgl1-mesa-glx \
 	libpulse0 \
-	libcanberra-gtk-module \
 	fonts-noto \
 	fonts-noto-cjk \
 	fonts-noto-color-emoji \
+	libcanberra-gtk-module \
+	gnome-themes-standard \
 	--no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
