@@ -54,3 +54,21 @@ A plex mediaserver compose file using container from linuxserver.io and some con
 
 ### sonarr
 A sonarr compose file using container from linuxserver.io and some configurations to use with NFS cluster.
+
+### spotify
+Spotify in a container using Wayland and pulseAudio.
+
+		docker run -d \
+		--net host \
+		-v /etc/localtime:/etc/localtime:ro \
+		-v /etc/passwd:/etc/passwd:ro \
+		-v "${HOME}:${HOME}" \
+		-e "DISPLAY=unix${DISPLAY}" \
+		-e QT_DEVICE_PIXEL_RATIO \
+		-e "PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native" \
+			-v "${XDG_RUNTIME_DIR}/pulse/native:${XDG_RUNTIME_DIR}/pulse/native" \
+		--device /dev/snd \
+		--device /dev/dri \
+		-u $(id -u):$(id -g) \
+		--name spotify \
+		jnvinet/spotify
