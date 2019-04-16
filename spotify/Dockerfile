@@ -28,10 +28,13 @@ LABEL maintainer "Julien Vinet <contact@julienvinet.dev>"
 RUN	apt-get update && apt-get install -y \
 	dirmngr \
 	gnupg \
-	--no-install-recommends \
-	&& apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90 \
-	&& echo "deb http://repository.spotify.com stable non-free" >> /etc/apt/sources.list.d/spotify.list \
-	&& apt-get update && apt-get install -y \
+	wget \
+	--no-install-recommends
+
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90 && \
+	echo "deb http://repository.spotify.com stable non-free" >> /etc/apt/sources.list.d/spotify.list
+
+RUN apt-get update && apt-get install -y \
 	alsa-utils \
 	libgl1-mesa-dri \
 	libgl1-mesa-glx \
@@ -40,7 +43,13 @@ RUN	apt-get update && apt-get install -y \
 	xdg-utils \
 	libcanberra-gtk-module \
 	gnome-themes-standard \
-	--no-install-recommends \
-	&& rm -rf /var/lib/apt/lists/*
+	--no-install-recommends && \
+	rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /usr/share/fonts/opentype/adobe-source-han-sans && \
+	wget -q --no-check-certificate https://github.com/adobe-fonts/source-han-sans/releases/download/2.001R/SourceHanSans.ttc && \
+	mv SourceHanSans.ttc /usr/share/fonts/opentype/adobe-source-han-sans/ && \
+	fc-cache -f -v
+
 
 ENTRYPOINT	[ "spotify" ]
