@@ -44,7 +44,6 @@ RUN apt-get update && apt-get install -y \
       fonts-liberation \
       fonts-roboto \
       hicolor-icon-theme \
-      libcanberra-gtk-module \
       libexif-dev \
       libgl1-mesa-dri \
       libgl1-mesa-glx \
