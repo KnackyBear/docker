@@ -1,6 +1,6 @@
 # VSCodium in a container
 FROM debian:buster-slim
-LABEL maintainer "Julien Vinet <contact@julienvinet.dev>"
+LABEL maintainer="Julien Vinet <contact@julienvinet.dev>" app="vscodium"
 
 # Tell debconf to run in non-interactive mode
 ENV DEBIAN_FRONTEND noninteractive
@@ -14,10 +14,10 @@ RUN apt-get update && apt-get install -y \
 
 # Add the vscodium repo
 RUN wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg | apt-key add -
-RUN echo 'deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main' | tee --append /etc/apt/sources.list.d/vscodium.list
+RUN echo 'deb https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/repos/debs/ vscodium main' | tee --append /etc/apt/sources.list
 
 RUN apt-get update && apt-get -y install \
-	vscodium \
+	codium \
 	git \
 	libasound2 \
 	libatk1.0-0 \
@@ -47,4 +47,4 @@ RUN apt-get update && apt-get -y install \
 	--no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT [ "/usr/share/vscodium/vscodium" ]
+ENTRYPOINT [ "/usr/share/codium/codium" ]
