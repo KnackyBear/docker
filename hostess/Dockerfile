@@ -4,6 +4,7 @@
 #		--name hostess \
 #		jnvinet/hostess "$@"
 #
+# Credits : https://github.com/cbednarski/hostess
 
 FROM debian:sid-slim
 LABEL maintainer="Julien Vinet <contact@julienvinet.dev>" app="hostess"
