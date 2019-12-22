@@ -4,8 +4,6 @@
 #
 #	docker run -d \
 #		--net host \
-#		--cpuset-cpus 0 \
-#		--memory 3gb \
 #		-v /etc/localtime:/etc/localtime:ro \
 #		-v /etc/passwd:/etc/passwd:ro \
 #		-e "DISPLAY=unix${DISPLAY}" \
@@ -37,6 +35,9 @@
 FROM debian:sid-slim
 LABEL maintainer "Julien Vinet <contact@julienvinet.dev>"
 
+# Get list of versions at https://dl.google.com/widevine-cdm/versions.txt
+ARG WIDEVINE_VERSION=4.10.1582.2
+
 # Install Chromium
 RUN apt-get update && apt-get install -y \
       chromium \
@@ -54,8 +55,17 @@ RUN apt-get update && apt-get install -y \
       libcanberra-gtk-module \
       gnome-themes-standard \
       wget \
+      unzip \
       --no-install-recommends \
     && rm -rf /var/lib/apt/lists/* 
+
+# Download latest version of libwindevine.co for Netflix compatibility (not working)
+RUN mkdir -p /opt/google/chrome/WidevineCdm/ \
+  && wget -q --no-check-certificate https://dl.google.com/widevine-cdm/${WIDEVINE_VERSION}-linux-x64.zip -O /opt/google/chrome/WidevineCdm/${WIDEVINE_VERSION}-linux-x64.zip \
+  && unzip -qq /opt/google/chrome/WidevineCdm/${WIDEVINE_VERSION}-linux-x64.zip -d /opt/google/chrome/WidevineCdm/ \
+  && chmod 644 /opt/google/chrome/WidevineCdm/libwidevinecdm.so \
+  && ln -sf /opt/google/chrome/WidevineCdm/ /usr/lib/chromium/WidevineCdm \
+  && rm -f /opt/google/chrome/WidevineCdm/${WIDEVINE_VERSION}-linux-x64.zip
 
 # Asian fonts cuz I need it
 RUN mkdir -p /usr/share/fonts/opentype/adobe-source-han-sans && \
