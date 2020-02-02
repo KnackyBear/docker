@@ -1,3 +1,5 @@
+![Docker Build Status](https://img.shields.io/docker/build/jnvinet/firefox?logo=docker) ![Docker Automated build](https://img.shields.io/docker/automated/jnvinet/firefox?logo=docker) ![Docker Pulls](https://img.shields.io/docker/pulls/jnvinet/firefox?logo=docker) ![GitHub last commit](https://img.shields.io/github/last-commit/julienvinet/dockerfiles?logo=github) 
+
 # Running command
 
 ```
