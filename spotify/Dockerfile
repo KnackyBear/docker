@@ -31,7 +31,7 @@ RUN	apt-get update && apt-get install -y \
 	wget \
 	--no-install-recommends
 
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90 && \
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4773BD5E130D1D45 && \
 	echo "deb http://repository.spotify.com stable non-free" >> /etc/apt/sources.list.d/spotify.list
 
 RUN apt-get update && apt-get install -y \
