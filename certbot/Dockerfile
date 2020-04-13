@@ -22,7 +22,7 @@ RUN buildDeps=' \
 	' \
 	set -x \
 	&& apk --no-cache add $buildDeps \
-	&& pip3 install acme \
+	&& pip3 install acme certbot-dns-ovh \
 	&& git clone --depth 1 --branch "v$CERTBOT_VERSION" https://github.com/certbot/certbot /usr/src/certbot \
 	&& cd /usr/src/certbot/certbot \
 	&& python3 setup.py build || return 1 \
