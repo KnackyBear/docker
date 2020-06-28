@@ -27,5 +27,10 @@ RUN curl -k https://dl.google.com/go/go1.12.9.linux-amd64.tar.gz -o go1.12.9.lin
 
 ENV PATH=/usr/local/go/bin:$PATH
 
+# Install Expo for ReactNative development
+WORKDIR /usr/local/lib/
+RUN npm install expo expo-cli
+RUN ln -snf /usr/local/lib/node_modules/expo/bin/cli.js /usr/local/bin/expo
+
 RUN mkdir -p /build/ && chmod -R 775 /build
 WORKDIR /build/
