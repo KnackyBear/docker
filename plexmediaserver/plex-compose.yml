@@ -4,7 +4,6 @@ services:
   plex:
     image: "linuxserver/plex:latest"
     container_name: "plex"
-    network_mode: "host"
     environment:
       - "VERSION=latest"
       - "PUID=109"
